@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Cinematic Birthday | Premium Celebration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050510;
+            --neon-pink: #ff00cc;
+            --neon-violet: #9d00ff;
+            --neon-blue: #00d4ff;
+            --neon-green: #39ff14;
+            --gold: #ffd700;
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== BACKGROUND LAYERS ===== */
+        #fw-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Aurora / nebula animated background */
+        .aurora {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            animation: auroraFloat var(--dur, 18s) ease-in-out infinite var(--delay, 0s);
+        }
+        .aurora-blob:nth-child(1) { width: 60vw; height: 60vw; background: radial-gradient(circle, #6600ff55, transparent 70%); top: -20%; left: -20%; --dur: 20s; --delay: 0s; }
+        .aurora-blob:nth-child(2) { width: 50vw; height: 50vw; background: radial-gradient(circle, #ff00cc44, transparent 70%); top: 40%; right: -15%; --dur: 25s; --delay: -8s; }
+        .aurora-blob:nth-child(3) { width: 45vw; height: 45vw; background: radial-gradient(circle, #00d4ff33, transparent 70%); bottom: -15%; left: 10%; --dur: 22s; --delay: -4s; }
+        .aurora-blob:nth-child(4) { width: 35vw; height: 35vw; background: radial-gradient(circle, #9d00ff55, transparent 70%); top: 20%; left: 50%; --dur: 30s; --delay: -12s; }
+        .aurora-blob:nth-child(5) { width: 55vw; height: 55vw; background: radial-gradient(circle, #ff006644, transparent 70%); bottom: 20%; right: 20%; --dur: 18s; --delay: -6s; }
+
+        @keyframes auroraFloat {
+            0%   { transform: translate(0, 0) scale(1);    opacity: 0.3; }
+            25%  { transform: translate(5%, 10%) scale(1.1); opacity: 0.5; }
+            50%  { transform: translate(-5%, 5%) scale(0.95); opacity: 0.4; }
+            75%  { transform: translate(8%, -5%) scale(1.05); opacity: 0.6; }
+            100% { transform: translate(0, 0) scale(1);    opacity: 0.3; }
+        }
+
+        /* Animated grid / mesh lines */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(157,0,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157,0,255,0.06) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridDrift 30s linear infinite;
+        }
+        @keyframes gridDrift {
+            from { background-position: 0 0; }
+            to   { background-position: 60px 60px; }
+        }
+
+        /* Twinkling stars */
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--t,3s) ease-in-out infinite var(--d,0s);
+        }
+        @keyframes twinkle {
+            0%,100% { opacity: 0.1; transform: scale(0.8); }
+            50%     { opacity: 1;   transform: scale(1.3); }
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbDrift var(--dur,20s) ease-in-out infinite var(--del,0s) alternate;
+        }
+        @keyframes orbDrift {
+            from { transform: translate(0,0) scale(1); }
+            to   { transform: translate(var(--tx,30px), var(--ty,-40px)) scale(1.2); }
+        }
+
+        /* ===== BALLOONS ===== */
+        .floating-el {
+            position: fixed;
+            bottom: -120px;
+            z-index: 2;
+            animation: floatUp var(--dur,20s) linear infinite var(--del,0s);
+            pointer-events: none;
+        }
+        .balloon {
+            width: 38px; height: 48px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -28px; left: 50%;
+            width: 1px; height: 28px;
+            background: rgba(255,255,255,0.25);
+        }
+        .balloon::before {
+            content: '✦';
+            position: absolute;
+            bottom: -3px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            opacity: 0.6;
+        }
+        .teddy {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 12px rgba(255,200,100,0.6));
+        }
+        .star-el {
+            font-size: 1.4rem;
+            animation: floatUp var(--dur,18s) linear infinite var(--del,0s), spinStar 4s linear infinite;
+        }
+        @keyframes spinStar {
+            from { filter: drop-shadow(0 0 5px gold) hue-rotate(0deg); }
+            to   { filter: drop-shadow(0 0 15px gold) hue-rotate(360deg); }
+        }
+
+        @keyframes floatUp {
+            0%   { transform: translateY(0) translateX(0) rotate(0); opacity:0; }
+            5%   { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translateY(-110vh) translateX(var(--drift,20px)) rotate(var(--rot,5deg)); opacity: 0; }
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 92%;
+            max-width: 960px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(16px, 3vh, 36px);
+            padding: clamp(10px, 2vh, 30px) 0;
+            animation: fadeInUp 1.5s cubic-bezier(.22,1,.36,1) forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity:0; transform: translateY(40px); }
+            to   { opacity:1; transform: translateY(0); }
+        }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid var(--glass-border);
+            border-radius: clamp(18px, 4vw, 32px);
+            padding: clamp(22px, 5vw, 48px) clamp(20px, 5vw, 60px);
+            text-align: center;
+            box-shadow:
+                0 0 60px rgba(0,0,0,0.6),
+                0 0 30px rgba(157,0,255,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-top: 22rem;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, rgba(157,0,255,0.05) 25%, transparent 50%, rgba(0,212,255,0.05) 75%, transparent 100%);
+            animation: cardSpin 12s linear infinite;
+        }
+        @keyframes cardSpin { to { transform: rotate(360deg); } }
+
+        .subtitle {
+            font-size: clamp(0.55rem, 1.5vw, 0.72rem);
+            letter-spacing: clamp(3px, 1vw, 7px);
+            text-transform: uppercase;
+            color: var(--neon-blue);
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .bday-tag {
+            font-weight: 300;
+            letter-spacing: clamp(2px, 1vw, 4px);
+            font-size: clamp(0.7rem, 2vw, 0.95rem);
+            opacity: 0.75;
+            position: relative;
+        }
+
+        .name-glow {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 9vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-violet) 50%, var(--neon-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+            margin: clamp(10px, 2.5vh, 20px) 0 8px;
+            position: relative;
+            transition: transform 0.3s, filter 0.3s;
+            animation: nameShimmer 4s linear infinite;
+            background-size: 200% auto;
+        }
+        @keyframes nameShimmer {
+            0%   { background-position: 0% center; }
+            50%  { background-position: 100% center; }
+            100% { background-position: 0% center; }
+        }
+        .name-glow:hover { transform: scale(1.04); filter: brightness(1.3) drop-shadow(0 0 20px var(--neon-pink)); }
+
+        .tap-hint {
+            font-size: 0.6rem; opacity: 0.35;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        /* ===== PULSING RING ===== */
+        .ring-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pulse-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            animation: pulseRing 2s ease-out infinite;
+        }
+        .pulse-ring:nth-child(1) { width: 120px; height: 120px; border-color: var(--neon-pink); animation-delay: 0s; }
+        .pulse-ring:nth-child(2) { width: 120px; height: 120px; border-color: var(--neon-violet); animation-delay: 0.6s; }
+        .pulse-ring:nth-child(3) { width: 120px; height: 120px; border-color: var(--neon-blue); animation-delay: 1.2s; }
+        @keyframes pulseRing {
+            0%   { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* ===== CAKE ===== */
+        .cake-wrap {
+            padding-top: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .cake {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            transform-origin: bottom center;
+            animation: cakeBounce 3s ease-in-out infinite;
+        }
+        @keyframes cakeBounce {
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-6px); }
+        }
+        .layer {
+            background: linear-gradient(180deg, #2e0b55 0%, #170730 100%);
+            border-radius: 14px 14px 4px 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .layer::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 14px 14px 0 0;
+        }
+        .l1 { width: clamp(60px, 15vw, 90px); height: clamp(30px, 8vw, 44px); z-index: 3; }
+        .l1::after { background: var(--neon-pink); box-shadow: 0 0 10px var(--neon-pink); }
+        .l2 { width: clamp(100px, 25vw, 145px); height: clamp(40px, 10vw, 55px); margin-top: -4px; z-index: 2; }
+        .l2::after { background: var(--neon-violet); box-shadow: 0 0 10px var(--neon-violet); }
+        .l3 { width: clamp(140px, 35vw, 195px); height: clamp(50px, 12vw, 65px); margin-top: -4px; z-index: 1; }
+        .l3::after { background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+
+        /* Decorative dots on cake */
+        .layer-dots {
+            position: absolute;
+            bottom: 8px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 6px;
+        }
+        .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            animation: dotGlow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes dotGlow {
+            from { filter: brightness(0.6); }
+            to   { filter: brightness(2) drop-shadow(0 0 4px currentColor); }
+        }
+
+        .candles-row {
+            display: flex;
+            gap: 12px;
+            position: absolute;
+            top: clamp(-35px, -8vw, -45px);
+            z-index: 5;
+        }
+        .candle-wrap { display: flex; flex-direction: column; align-items: center; }
+        .flame {
+            width: clamp(9px,2.5vw,13px); height: clamp(14px,3.5vw,20px);
+            background: radial-gradient(ellipse at bottom, #fff 0%, #ffdd00 30%, #ff6600 80%);
+            border-radius: 50% 50% 25% 25%;
+            box-shadow: 0 0 12px #ff8800, 0 0 25px #ff4400;
+            animation: flicker 0.12s infinite alternate;
+        }
+        @keyframes flicker {
+            from { transform: scaleX(1) scaleY(1) rotate(-2deg); opacity: 0.9; }
+            to   { transform: scaleX(0.85) scaleY(1.1) rotate(2deg); opacity: 1; }
+        }
+        .candle-body {
+            width: clamp(6px,1.5vw,9px); height: clamp(22px,5vw,32px);
+            border-radius: 3px;
+            margin-top: 2px;
+        }
+        .c1 { background: linear-gradient(to bottom, #ff00cc, #9900aa); }
+        .c2 { background: linear-gradient(to bottom, #00d4ff, #0066aa); }
+        .c3 { background: linear-gradient(to bottom, #9d00ff, #440077); }
+
+        .cake-shadow {
+            position: absolute;
+            bottom: clamp(-15px,-4vw,-20px);
+            width: clamp(140px,35vw,210px);
+            height: 20px;
+            background: radial-gradient(ellipse, rgba(157,0,255,0.4), transparent 70%);
+            filter: blur(8px);
+            animation: shadowPulse 3s ease-in-out infinite;
+        }
+        @keyframes shadowPulse {
+            0%,100% { transform: scaleX(1); opacity: 0.5; }
+            50%     { transform: scaleX(1.15); opacity: 0.8; }
+        }
+
+        /* ===== WISH CARD ===== */
+        .wish-card {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: clamp(18px,4vw,30px) clamp(20px,5vw,40px);
+            border-radius: clamp(16px,3vw,24px);
+            width: 100%;
+            max-width: 580px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .wish-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(157,0,255,0.05), transparent 50%, rgba(0,212,255,0.05));
+        }
+        .wish-card h3 {
+            font-size: clamp(0.65rem,1.5vw,0.82rem);
+            letter-spacing: clamp(2px,1vw,4px);
+            color: var(--neon-violet);
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .wish-card p {
+            font-style: italic;
+            font-weight: 300;
+            font-size: clamp(0.82rem,2vw,0.98rem);
+            line-height: 1.7;
+            color: #ddd;
+            position: relative;
+        }
+
+        /* ===== BOTTOM BADGES ===== */
+        .badges {
+            display: flex;
+            gap: clamp(8px,2vw,16px);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .badge {
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: clamp(0.6rem,1.5vw,0.72rem);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid;
+            animation: badgePop 0.6s cubic-bezier(.34,1.56,.64,1) both;
+            cursor: default;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .badge:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+        .badge:nth-child(1) { border-color: var(--neon-pink); color: var(--neon-pink); background: rgba(255,0,204,0.08); animation-delay: 0.2s; }
+        .badge:nth-child(2) { border-color: var(--neon-violet); color: var(--neon-violet); background: rgba(157,0,255,0.08); animation-delay: 0.4s; }
+        .badge:nth-child(3) { border-color: var(--neon-blue); color: var(--neon-blue); background: rgba(0,212,255,0.08); animation-delay: 0.6s; }
+        @keyframes badgePop {
+            from { opacity:0; transform: scale(0.7); }
+            to   { opacity:1; transform: scale(1); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .badges { gap: 6px; }
+            .badge { padding: 6px 14px; }
+            .pulse-ring:nth-child(1),
+            .pulse-ring:nth-child(2),
+            .pulse-ring:nth-child(3) { width: 90px; height: 90px; }
+        }
+        @media (max-height: 650px) {
+            .container { gap: 10px; }
+            .pulse-ring:nth-child(1),
+            .pulse-ring:nth-child(2),
+            .pulse-ring:nth-child(3) { width: 80px; height: 80px; }
+        }
+
+        /* Scrollbar for small screens */
+        @media (max-height: 700px) and (min-width: 600px) {
+            body { align-items: flex-start; overflow-y: auto; }
+            .container { margin: 20px auto; }
+        }
+
+        /* ===== GIFT BOX SECTION ===== */
+        .gift-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .gift-section-label {
+            font-size: clamp(0.6rem, 1.5vw, 0.72rem);
+            letter-spacing: clamp(3px, 1vw, 6px);
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+        }
+
+        .gift-stage {
+            display: flex;
+            justify-content: center;
+            gap: clamp(20px, 5vw, 50px);
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        /* Individual gift */
+        .gift-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            animation: giftAppear 0.8s cubic-bezier(.34,1.56,.64,1) both;
+        }
+        .gift-item:nth-child(2) { animation-delay: 0.15s; }
+        .gift-item:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes giftAppear {
+            from { opacity:0; transform: scale(0.5) translateY(20px); }
+            to   { opacity:1; transform: scale(1) translateY(0); }
+        }
+
+        .gift-box {
+            position: relative;
+            width: clamp(70px, 16vw, 100px);
+            height: clamp(65px, 15vw, 92px);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .gift-box:hover { transform: scale(1.06) rotate(-2deg); }
+        .gift-box:hover .gift-lid { transform: translateY(-22px) rotate(-8deg); }
+        .gift-box.opened .gift-lid { transform: translateY(-35px) rotate(-20deg) translateX(5px); }
+        .gift-box.opened .gift-surprise { opacity: 1; transform: translateY(-50px) scale(1); }
+        .gift-box.opened .gift-glow { opacity: 1; transform: scale(2); }
+
+        .gift-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 75%;
+            border-radius: 8px 8px 12px 12px;
+            background: linear-gradient(160deg, var(--box-light, #3a0060) 0%, var(--box-dark, #1a0030) 100%);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+        .gift-body::before { /* ribbon vertical */
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 50%; transform: translateX(-50%);
+            width: 16%;
+            background: var(--ribbon, rgba(255,0,204,0.6));
+            box-shadow: 0 0 10px var(--ribbon-glow, rgba(255,0,204,0.4));
+        }
+        .gift-body::after { /* shine */
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.06), transparent);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .gift-lid {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 30%;
+            border-radius: 8px 8px 4px 4px;
+            background: linear-gradient(160deg, var(--lid-light, #5a0090) 0%, var(--lid-dark, #2a0050) 100%);
+            border: 1.5px solid rgba(255,255,255,0.14);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+            transition: transform 0.5s cubic-bezier(.34,1.56,.64,1);
+            transform-origin: left top;
+            z-index: 2;
+        }
+        .gift-lid::before { /* ribbon on lid */
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 50%; transform: translateX(-50%);
+            width: 16%;
+            background: var(--ribbon, rgba(255,0,204,0.6));
+        }
+
+        /* Bow on top */
+        .gift-bow {
+            position: absolute;
+            top: -12px;
+            left: 50%; transform: translateX(-50%);
+            z-index: 3;
+            font-size: clamp(14px, 3.5vw, 20px);
+            filter: drop-shadow(0 0 6px var(--ribbon-glow, rgba(255,0,204,0.8)));
+            animation: bowWiggle 2s ease-in-out infinite;
+        }
+        @keyframes bowWiggle {
+            0%,100% { transform: translateX(-50%) rotate(-3deg); }
+            50%      { transform: translateX(-50%) rotate(3deg); }
+        }
+
+        .gift-surprise {
+            position: absolute;
+            top: -20px; left: 50%;
+            transform: translateX(-50%) scale(0);
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(.34,1.56,.64,1);
+            pointer-events: none;
+            z-index: 5;
+            filter: drop-shadow(0 0 12px gold);
+            white-space: nowrap;
+        }
+
+        .gift-glow {
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--ribbon-glow, rgba(255,0,204,0.3)), transparent 70%);
+            opacity: 0;
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+
+        .gift-label {
+            font-size: clamp(0.58rem, 1.4vw, 0.7rem);
+            letter-spacing: 1.5px;
+            opacity: 0.5;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* Open all button */
+        .open-all-btn {
+            padding: 10px 28px;
+            border-radius: 100px;
+            border: 1px solid var(--gold);
+            background: rgba(255,215,0,0.08);
+            color: var(--gold);
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(0.62rem, 1.5vw, 0.74rem);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+        .open-all-btn:hover {
+            background: rgba(255,215,0,0.18);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,215,0,0.2);
+        }
+
+        /* Confetti from gifts */
+        .confetti-piece {
+            position: fixed;
+            width: 8px; height: 8px;
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 100;
+            animation: confettiFall var(--dur,2s) ease-in forwards var(--del,0s);
+        }
+        @keyframes confettiFall {
+            0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity:1; }
+            100% { transform: translate(var(--dx,30px), 100vh) rotate(720deg) scale(0.5); opacity:0; }
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            width: 100%;
+            position: relative;
+            margin-top: clamp(10px, 2vh, 20px);
+            padding: clamp(20px, 4vw, 32px) clamp(20px, 5vw, 40px);
+            border-radius: clamp(16px, 3vw, 24px);
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06);
+            overflow: hidden;
+            text-align: center;
+        }
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--neon-violet), var(--neon-pink), var(--neon-blue), transparent);
+            opacity: 0.5;
+        }
+
+        .footer-hearts {
+            display: flex;
+            justify-content: center;
+            gap: clamp(6px, 2vw, 14px);
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .heart-emoji {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            animation: heartBeat 1.2s ease-in-out infinite;
+        }
+        .heart-emoji:nth-child(2) { animation-delay: 0.15s; }
+        .heart-emoji:nth-child(3) { animation-delay: 0.3s; }
+        .heart-emoji:nth-child(4) { animation-delay: 0.45s; }
+        .heart-emoji:nth-child(5) { animation-delay: 0.6s; }
+        @keyframes heartBeat {
+            0%,100% { transform: scale(1); }
+            50%      { transform: scale(1.25); filter: drop-shadow(0 0 8px rgba(255,80,120,0.8)); }
+        }
+
+        .footer-main-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(0.65rem, 2vw, 0.9rem);
+            letter-spacing: clamp(2px, 1vw, 5px);
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-violet), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .footer-sub {
+            font-size: clamp(0.58rem, 1.4vw, 0.68rem);
+            opacity: 0.35;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            margin: 0 auto 14px;
+        }
+
+        .footer-copy {
+            font-size: clamp(0.52rem, 1.2vw, 0.62rem);
+            opacity: 0.22;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+        .footer-icon {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem;
+            cursor: default;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .footer-icon:hover {
+            border-color: var(--neon-pink);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(255,0,204,0.2);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- BG layers -->
+    <div class="aurora">
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+        <div class="aurora-blob"></div>
+    </div>
+    <div class="grid-overlay"></div>
+    <div class="stars" id="stars"></div>
+    <canvas id="fw-canvas"></canvas>
+    <div id="ambient"></div>
+
+    <!-- Main UI -->
+    <div class="container">
+
+        <!-- Name card -->
+        <div class="glass-card">
+            <div class="subtitle">✦ A Cinematic Celebration ✦</div>
+            <div class="bday-tag">HAPPY BIRTHDAY</div>
+            <h1 class="name-glow" id="userName" title="Tap to change name">SUKRITI</h1>
+            <!-- <div class="tap-hint">✦ tap name to personalize ✦</div> -->
+        </div>
+
+        <!-- Pulse rings + Cake -->
+        <div class="ring-container">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+
+            <div class="cake-wrap">
+                <div class="cake">
+                    <div class="candles-row">
+                        <div class="candle-wrap">
+                            <div class="flame"></div>
+                            <div class="candle-body c1"></div>
+                        </div>
+                        <div class="candle-wrap">
+                            <div class="flame"></div>
+                            <div class="candle-body c2"></div>
+                        </div>
+                        <div class="candle-wrap">
+                            <div class="flame"></div>
+                            <div class="candle-body c3"></div>
+                        </div>
+                    </div>
+                    <div class="layer l1">
+                        <div class="layer-dots">
+                            <div class="dot" style="background:var(--neon-pink)"></div>
+                            <div class="dot" style="background:white; animation-delay:0.5s"></div>
+                            <div class="dot" style="background:var(--neon-pink)"></div>
+                        </div>
+                    </div>
+                    <div class="layer l2">
+                        <div class="layer-dots">
+                            <div class="dot" style="background:var(--neon-violet)"></div>
+                            <div class="dot" style="background:white; animation-delay:0.3s"></div>
+                            <div class="dot" style="background:var(--neon-violet)"></div>
+                            <div class="dot" style="background:white; animation-delay:0.7s"></div>
+                            <div class="dot" style="background:var(--neon-violet)"></div>
+                        </div>
+                    </div>
+                    <div class="layer l3">
+                        <div class="layer-dots">
+                            <div class="dot" style="background:var(--neon-blue)"></div>
+                            <div class="dot" style="background:white; animation-delay:0.2s"></div>
+                            <div class="dot" style="background:var(--neon-blue)"></div>
+                            <div class="dot" style="background:white; animation-delay:0.6s"></div>
+                            <div class="dot" style="background:var(--neon-blue)"></div>
+                            <div class="dot" style="background:white; animation-delay:0.4s"></div>
+                            <div class="dot" style="background:var(--neon-blue)"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cake-shadow"></div>
+            </div>
+        </div>
+
+        <!-- Wish card -->
+        <div class="wish-card">
+            <h3>✦ BIRTHDAY WISHES ✦</h3>
+            <p>"May your day shine brighter than a thousand stars
+
+                Wishing you a year filled with wonder and joy
+
+                May all your dreams take flight tonight
+
+                Here's to another amazing year ahead"</p>
+        </div>
+
+        <!-- Badges -->
+        <div class="badges">
+            <div class="badge">✦ Legendary</div>
+            <div class="badge">✦ Radiant</div>
+            <div class="badge">✦ Infinite Joy</div>
+        </div>
+
+        <!-- GIFT BOX SECTION -->
+        <div class="gift-section">
+            <div class="gift-section-label">✦ Surprise Gifts For You ✦</div>
+            <div class="gift-stage">
+
+                <div class="gift-item">
+                    <div class="gift-box" id="gift1" onclick="openGift(this,'Happy &amp; Joy!',1)"
+                         style="--box-light:#3a0050;--box-dark:#1a0025;--lid-light:#5a0080;--lid-dark:#2a0040;--ribbon:rgba(255,0,204,0.7);--ribbon-glow:rgba(255,0,204,0.5);">
+                        <div class="gift-glow"></div>
+                        <div class="gift-lid"><div class="gift-bow">🎀</div></div>
+                        <div class="gift-body"></div>
+                        <div class="gift-surprise">Happy &amp; Joy!</div>
+                    </div>
+                    <div class="gift-label">Open Me</div>
+                </div>
+
+                <div class="gift-item">
+                    <div class="gift-box" id="gift2" onclick="openGift(this,'🌟 Dreams Come True!',2)"
+                         style="--box-light:#001840;--box-dark:#000c20;--lid-light:#002860;--lid-dark:#001030;--ribbon:rgba(0,212,255,0.7);--ribbon-glow:rgba(0,212,255,0.5);">
+                        <div class="gift-glow"></div>
+                        <div class="gift-lid"><div class="gift-bow" style="filter:drop-shadow(0 0 6px rgba(0,212,255,0.9))">🎁</div></div>
+                        <div class="gift-body"></div>
+                        <div class="gift-surprise">🌟 Dreams!</div>
+                    </div>
+                    <div class="gift-label">Open Me</div>
+                </div>
+
+                <div class="gift-item">
+                    <div class="gift-box" id="gift3" onclick="openGift(this,'✨ Pure Magic!',3)"
+                         style="--box-light:#2a1800;--box-dark:#150c00;--lid-light:#3a2200;--lid-dark:#201200;--ribbon:rgba(255,215,0,0.7);--ribbon-glow:rgba(255,215,0,0.5);">
+                        <div class="gift-glow"></div>
+                        <div class="gift-lid"><div class="gift-bow" style="filter:drop-shadow(0 0 6px rgba(255,215,0,0.9))">🎊</div></div>
+                        <div class="gift-body"></div>
+                        <div class="gift-surprise">✨ Magic!</div>
+                    </div>
+                    <div class="gift-label">Open Me</div>
+                </div>
+
+            </div>
+            <button class="open-all-btn" onclick="openAllGifts()">✦ Open All Gifts ✦</button>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <!-- <div class="footer-hearts">
+                <span class="heart-emoji">💜</span>
+                <span class="heart-emoji">💙</span>
+                <span class="heart-emoji">💖</span>
+                <span class="heart-emoji">💙</span>
+                <span class="heart-emoji">💜</span>
+            </div> -->
+            <!-- <div class="footer-main-text">Made With Love For You</div> -->
+            <div class="footer-sub">Every star in the universe celebrates you today ✦</div>
+            <div class="footer-icons">
+                <div class="footer-icon">🎉</div>
+                <div class="footer-icon">🎂</div>
+                <div class="footer-icon">🌟</div>
+                <div class="footer-icon">🎈</div>
+                <div class="footer-icon">🎊</div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-copy">© 2026 · A Cinematic Birthday Experience · SDKING DEV</div>
+        </footer>
+
+    </div>
+
+    <script>
+        /* ===== 1. STARS ===== */
+        const starsEl = document.getElementById('stars');
+        for (let i = 0; i < 120; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const size = Math.random() * 2.5 + 0.5;
+            s.style.cssText = `
+                width:${size}px; height:${size}px;
+                top:${Math.random()*100}%; left:${Math.random()*100}%;
+                --t:${(Math.random()*4+2).toFixed(1)}s;
+                --d:${-(Math.random()*5).toFixed(1)}s;
+            `;
+            starsEl.appendChild(s);
+        }
+
+        /* ===== 2. FIREWORKS ===== */
+        const canvas = document.getElementById('fw-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, color, burst = false) {
+                this.x = x; this.y = y; this.color = color;
+                const speed = burst ? Math.random() * 12 + 3 : Math.random() * 8 + 1;
+                const angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed - (burst ? 2 : 0);
+                this.alpha = 1;
+                this.friction = 0.94;
+                this.gravity = 0.12;
+                this.size = burst ? Math.random() * 3 + 1.5 : Math.random() * 2 + 1;
+                this.trail = burst;
+            }
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.trail ? 0.018 : 0.012;
+            }
+        }
+
+        const COLORS = ['#ff00cc','#9d00ff','#00d4ff','#ffffff','#ffd700','#39ff14','#ff6600'];
+
+        function createFirework(x, y, big = false) {
+            const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+            const count = big ? 80 : 45;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, color, big));
+            }
+            // Sparkle ring
+            const color2 = COLORS[Math.floor(Math.random() * COLORS.length)];
+            for (let i = 0; i < 20; i++) {
+                particles.push(new Particle(x, y, color2));
+            }
+        }
+
+        function autoFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height * 0.55;
+            createFirework(x, y, Math.random() > 0.5);
+        }
+
+        function animateLoop() {
+            ctx.fillStyle = 'rgba(5, 5, 16, 0.18)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.alpha > 0);
+            for (const p of particles) { p.update(); p.draw(); }
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateLoop);
+        }
+        animateLoop();
+
+        // Staggered fireworks for a cinematic opening
+        [800, 1600, 2200, 3000, 4000].forEach(t => setTimeout(autoFirework, t));
+        setInterval(autoFirework, 2200);
+        setInterval(() => autoFirework(), 3500); // second stream offset
+
+        /* ===== 3. FLOATING ELEMENTS ===== */
+        const ambient = document.getElementById('ambient');
+        const balloonColors = [
+            'var(--neon-pink)','var(--neon-violet)','var(--neon-blue)',
+            '#39ff14','#ffd700','#ff6600'
+        ];
+
+        function spawnBalloon() {
+            const el = document.createElement('div');
+            el.className = 'floating-el balloon';
+            const col = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            el.style.color = col;
+            el.style.backgroundColor = col;
+            el.style.left = (Math.random() * 95) + 'vw';
+            const dur = (Math.random() * 12 + 14).toFixed(1);
+            const del = -(Math.random() * 10).toFixed(1);
+            el.style.setProperty('--dur', dur + 's');
+            el.style.setProperty('--del', del + 's');
+            el.style.setProperty('--drift', ((Math.random()-0.5)*60).toFixed(0) + 'px');
+            el.style.setProperty('--rot', ((Math.random()-0.5)*20).toFixed(0) + 'deg');
+            ambient.appendChild(el);
+        }
+
+        function spawnTeddy() {
+            const el = document.createElement('div');
+            el.className = 'floating-el teddy';
+            el.textContent = '🧸';
+            el.style.left = (Math.random() * 90) + 'vw';
+            const dur = (Math.random() * 15 + 20).toFixed(1);
+            const del = -(Math.random() * 10).toFixed(1);
+            el.style.setProperty('--dur', dur + 's');
+            el.style.setProperty('--del', del + 's');
+            el.style.setProperty('--drift', ((Math.random()-0.5)*50).toFixed(0) + 'px');
+            el.style.setProperty('--rot', '0deg');
+            ambient.appendChild(el);
+        }
+
+        function spawnStar() {
+            const el = document.createElement('div');
+            el.className = 'floating-el star-el';
+            el.textContent = ['⭐','✨','🌟','💫'][Math.floor(Math.random()*4)];
+            el.style.left = (Math.random() * 95) + 'vw';
+            const dur = (Math.random() * 12 + 12).toFixed(1);
+            const del = -(Math.random() * 8).toFixed(1);
+            el.style.setProperty('--dur', dur + 's');
+            el.style.setProperty('--del', del + 's');
+            el.style.setProperty('--drift', ((Math.random()-0.5)*40).toFixed(0) + 'px');
+            el.style.setProperty('--rot', '0deg');
+            ambient.appendChild(el);
+        }
+
+        // Initial spawns
+        for (let i = 0; i < 10; i++) spawnBalloon();
+        for (let i = 0; i < 4; i++) spawnTeddy();
+        for (let i = 0; i < 6; i++) spawnStar();
+
+        // Periodic spawning
+        setInterval(spawnBalloon, 3000);
+        setInterval(spawnTeddy, 7000);
+        setInterval(spawnStar, 4000);
+
+        // Cleanup old elements
+        setInterval(() => {
+            const els = ambient.querySelectorAll('.floating-el');
+            if (els.length > 60) els[0].remove();
+        }, 5000);
+
+        /* ===== 4. CLICK INTERACTION ===== */
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'userName') return;
+            createFirework(e.clientX, e.clientY, true);
+        });
+
+
+        /* ===== 6. GIFT BOX ===== */
+        const confettiColors = ['#ff00cc','#9d00ff','#00d4ff','#ffd700','#39ff14','#ff6600','#ffffff'];
+
+        function spawnConfetti(x, y, count) {
+            count = count || 30;
+            for (var i = 0; i < count; i++) {
+                var c = document.createElement('div');
+                c.className = 'confetti-piece';
+                var col = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                var dx = (Math.random() - 0.5) * 220;
+                var dur = (Math.random() * 1.2 + 1.0).toFixed(2);
+                var del = (Math.random() * 0.3).toFixed(2);
+                var w = (Math.random() * 8 + 5).toFixed(1);
+                var br = Math.random() > 0.5 ? '50%' : '2px';
+                c.style.background = col;
+                c.style.left = x + 'px';
+                c.style.top = y + 'px';
+                c.style.setProperty('--dx', dx + 'px');
+                c.style.setProperty('--dur', dur + 's');
+                c.style.setProperty('--del', del + 's');
+                c.style.width = w + 'px';
+                c.style.height = w + 'px';
+                c.style.borderRadius = br;
+                document.body.appendChild(c);
+                (function(el, d, dl){ setTimeout(function(){ el.remove(); }, (parseFloat(d)+parseFloat(dl)+0.2)*1000); })(c, dur, del);
+            }
+        }
+
+        function openGift(el, msg, idx) {
+            if (el.classList.contains('opened')) return;
+            el.classList.add('opened');
+            var label = el.closest('.gift-item').querySelector('.gift-label');
+            if (label) label.textContent = '🎉 Opened!';
+            var rect = el.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2;
+            var cy = rect.top + rect.height / 2;
+            spawnConfetti(cx, cy, 40);
+            createFirework(cx, cy, true);
+            setTimeout(function(){ createFirework(cx, cy - 80, false); }, 300);
+        }
+
+        function openAllGifts() {
+            ['gift1','gift2','gift3'].forEach(function(id, i) {
+                setTimeout(function() {
+                    var el = document.getElementById(id);
+                    if (el) openGift(el, '', i+1);
+                }, i * 400);
+            });
+        }
+
+        /* ===== 5. NAME EDIT ===== */
+        function updateName() {
+            const name = prompt("🎉 Enter the Birthday Star's Name:");
+            if (name && name.trim()) {
+                document.getElementById('userName').textContent = name.trim().toUpperCase();
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => autoFirework(), i * 250);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
